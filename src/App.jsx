@@ -1,4 +1,6 @@
 import { motion, useScroll, useSpring } from 'framer-motion'
+import useSmoothScroll from './hooks/useSmoothScroll'
+import BackgroundFX from './components/BackgroundFX'
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
 import LogoMarquee from './components/LogoMarquee'
@@ -6,6 +8,7 @@ import Services from './components/Services'
 import Industries from './components/Industries'
 import AIIntegrations from './components/AIIntegrations'
 import Testimonials from './components/Testimonials'
+import Founders from './components/Founders'
 import Contact from './components/Contact'
 import Footer from './components/Footer'
 
@@ -28,11 +31,15 @@ import Footer from './components/Footer'
  *   keep everything jitter-free and performant.
  */
 export default function App() {
+  useSmoothScroll() // Lenis inertia scroll feeding the scroll-linked 3D animations
   const { scrollYProgress } = useScroll()
   const progress = useSpring(scrollYProgress, { stiffness: 120, damping: 30, mass: 0.3 })
 
   return (
     <div className="relative">
+      {/* animated 3D backdrop behind everything */}
+      <BackgroundFX />
+
       {/* scroll progress indicator spanning all sections */}
       <motion.div
         style={{ scaleX: progress }}
@@ -48,6 +55,7 @@ export default function App() {
         <Industries />
         <AIIntegrations />
         <Testimonials />
+        <Founders />
         {/* Pricing section intentionally removed per request. */}
         {/* FAQ replaced by the Contact Us section below. */}
         <Contact />

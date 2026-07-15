@@ -1,14 +1,14 @@
 import { Facebook, Phone, MessageCircle, Mail } from 'lucide-react'
+import Logo from './Logo'
 import { SITE, NAV_LINKS } from '../lib/site'
 
 export default function Footer() {
   return (
-    <footer className="border-t border-black/5 bg-white">
+    <footer className="border-t border-white/40 bg-white/60 backdrop-blur-md">
       <div className="mx-auto grid max-w-7xl grid-cols-1 gap-8 px-5 py-14 md:grid-cols-3 md:px-8">
         <div>
-          <a href="#top" className="flex items-center gap-2 text-lg font-extrabold">
-            <span className="grid h-8 w-8 place-items-center rounded-lg bg-brand-600 text-white">◆</span>
-            Terrain<span className="text-brand-600">shalo</span>
+          <a href="#top" aria-label="Terrainshalo home">
+            <Logo size={32} textClass="text-xl" />
           </a>
           <p className="mt-4 max-w-xs text-sm text-muted">
             End-to-end web and mobile solutions — from UI/UX design to full-stack development.

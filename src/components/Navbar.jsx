@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { Menu, X, ArrowRight } from 'lucide-react'
+import Logo from './Logo'
 import { NAV_LINKS, SITE } from '../lib/site'
 
 export default function Navbar() {
@@ -24,11 +25,8 @@ export default function Navbar() {
       }`}
     >
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 md:px-8">
-        <a href="#top" className="flex items-center gap-2 font-extrabold text-lg">
-          <span className="grid h-8 w-8 place-items-center rounded-lg bg-brand-600 text-white">◆</span>
-          <span>
-            Terrain<span className="text-brand-600">shalo</span>
-          </span>
+        <a href="#top" aria-label="Terrainshalo home">
+          <Logo size={34} textClass="text-2xl" />
         </a>
 
         <ul className="hidden items-center gap-8 text-sm font-medium text-ink/80 md:flex">
@@ -44,9 +42,9 @@ export default function Navbar() {
         <div className="hidden md:block">
           <a
             href="#contact"
-            className="inline-flex items-center gap-2 rounded-full bg-ink px-5 py-2.5 text-sm font-semibold text-white transition-transform hover:-translate-y-0.5"
+            className="inline-flex items-center gap-2 rounded-full bg-brand-600 px-5 py-2.5 text-sm font-semibold text-white transition-transform hover:-translate-y-0.5"
           >
-            Login <ArrowRight size={16} />
+            Get Started <ArrowRight size={16} />
           </a>
         </div>
 

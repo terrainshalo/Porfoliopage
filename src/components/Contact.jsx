@@ -1,22 +1,19 @@
-import { useRef, useState } from 'react'
+import { useState } from 'react'
 import { motion } from 'framer-motion'
-import emailjs from '@emailjs/browser'
 import { Mail, Phone, MessageCircle, Facebook, Send, Loader2, CheckCircle2, AlertTriangle } from 'lucide-react'
-import SectionTag from './SectionTag'
 import { fadeUp3D, stagger, inView } from '../lib/motion'
 import { SITE } from '../lib/site'
 
-const EMAILJS = {
-  serviceId: import.meta.env.VITE_EMAILJS_SERVICE_ID,
-  templateId: import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
-  publicKey: import.meta.env.VITE_EMAILJS_PUBLIC_KEY,
-}
+// Web3Forms turns this form into an email to your inbox — no backend needed.
+// Get a free access key in seconds at https://web3forms.com (enter the inbox
+// where you want leads to arrive), then put it in .env as VITE_WEB3FORMS_KEY.
+const WEB3FORMS_KEY = import.meta.env.VITE_WEB3FORMS_KEY
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+const PHONE_RE = /^[+\d][\d\s-]{7,}$/ // +country / digits, spaces, dashes
 
 export default function Contact() {
-  const formRef = useRef(null)
-  const [values, setValues] = useState({ name: '', email: '', subject: '', message: '' })
+  const [values, setValues] = useState({ name: '', email: '', phone: '', message: '' })
   const [errors, setErrors] = useState({})
   const [status, setStatus] = useState('idle') // idle | sending | success | error
 
@@ -29,7 +26,7 @@ export default function Contact() {
     const next = {}
     if (!values.name.trim()) next.name = 'Please enter your name.'
     if (!EMAIL_RE.test(values.email)) next.email = 'Enter a valid email address.'
-    if (!values.subject.trim()) next.subject = 'Add a subject.'
+    if (!PHONE_RE.test(values.phone.trim())) next.phone = 'Enter a valid phone number.'
     if (values.message.trim().length < 10) next.message = 'Message should be at least 10 characters.'
     setErrors(next)
     return Object.keys(next).length === 0
@@ -40,25 +37,38 @@ export default function Contact() {
     if (!validate()) return
     setStatus('sending')
 
-    // Template params — must match the variable names in your EmailJS template.
-    const params = {
-      from_name: values.name,
-      from_email: values.email,
-      subject: values.subject,
+    if (!WEB3FORMS_KEY) {
+      console.error('Missing VITE_WEB3FORMS_KEY. Add your Web3Forms access key to .env.')
+      setStatus('error')
+      return
+    }
+
+    // Everything below is emailed straight to your inbox by Web3Forms.
+    const payload = {
+      access_key: WEB3FORMS_KEY,
+      subject: `New website lead from ${values.name}`,
+      from_name: 'Terrainshalo Website',
+      // lead's contact details:
+      name: values.name,
+      email: values.email,
+      phone: values.phone,
       message: values.message,
-      to_email: SITE.email, // admin@terrainshalo.com
+      botcheck: '', // honeypot (filled = spam)
     }
 
     try {
-      if (!EMAILJS.serviceId || !EMAILJS.publicKey) {
-        // Keys not configured yet — fail loudly in dev so it's obvious.
-        throw new Error('EmailJS keys missing. Add them to your .env file.')
-      }
-      await emailjs.send(EMAILJS.serviceId, EMAILJS.templateId, params, {
-        publicKey: EMAILJS.publicKey,
+      const res = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify(payload),
       })
-      setStatus('success')
-      setValues({ name: '', email: '', subject: '', message: '' })
+      const data = await res.json()
+      if (data.success) {
+        setStatus('success')
+        setValues({ name: '', email: '', phone: '', message: '' })
+      } else {
+        throw new Error(data.message || 'Submission failed')
+      }
     } catch (err) {
       console.error('Contact form error:', err)
       setStatus('error')
@@ -69,8 +79,6 @@ export default function Contact() {
     <section id="contact" className="scene-3d relative overflow-hidden py-20 md:py-28">
       <div className="glow-blob pointer-events-none absolute -left-20 bottom-10 -z-10 h-80 w-80 rounded-full bg-brand-200/40" />
       <div className="mx-auto max-w-6xl px-5 md:px-8">
-        <SectionTag active="Contact" label="Let's talk" />
-
         <motion.h2
           variants={fadeUp3D}
           initial="hidden"
@@ -130,7 +138,6 @@ export default function Contact() {
 
           {/* RIGHT: the form */}
           <motion.form
-            ref={formRef}
             onSubmit={onSubmit}
             noValidate
             variants={fadeUp3D}
@@ -139,6 +146,15 @@ export default function Contact() {
             viewport={inView}
             className="rounded-3xl bg-white p-6 shadow-card ring-1 ring-black/5 md:p-8"
           >
+            {/* honeypot: hidden from humans, catches bots */}
+            <input
+              type="checkbox"
+              name="botcheck"
+              tabIndex={-1}
+              autoComplete="off"
+              className="hidden"
+              aria-hidden="true"
+            />
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <Field
                 label="Name"
@@ -160,12 +176,13 @@ export default function Contact() {
             </div>
             <div className="mt-4">
               <Field
-                label="Subject"
-                name="subject"
-                value={values.subject}
+                label="Phone"
+                name="phone"
+                type="tel"
+                value={values.phone}
                 onChange={update}
-                error={errors.subject}
-                placeholder="New website project"
+                error={errors.phone}
+                placeholder="+91 98765 43210"
               />
             </div>
             <div className="mt-4">

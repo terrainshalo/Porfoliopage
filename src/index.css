@@ -10,9 +10,77 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Lenis smooth-scroll: disable native smoothing while Lenis drives it */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
 body {
-  @apply bg-white text-ink font-sans antialiased;
+  @apply text-ink font-sans antialiased;
   overflow-x: hidden;
+  /* soft base so there's never a flat-white flash before BackgroundFX mounts */
+  background-color: #eef2ff;
+}
+
+/* Multi-point mesh gradient used as the page backdrop.
+   Slowly pans + scales on its own so the whole backdrop feels alive even
+   without scrolling. */
+.bg-mesh {
+  background-color: #eef2ff;
+  background-image:
+    radial-gradient(at 12% 18%, rgba(79, 124, 255, 0.20) 0px, transparent 55%),
+    radial-gradient(at 85% 12%, rgba(165, 180, 252, 0.24) 0px, transparent 50%),
+    radial-gradient(at 78% 72%, rgba(59, 58, 149, 0.16) 0px, transparent 55%),
+    radial-gradient(at 20% 88%, rgba(199, 210, 254, 0.32) 0px, transparent 55%);
+  transform-origin: center;
+  animation: meshDrift 26s ease-in-out infinite alternate;
+}
+
+@keyframes meshDrift {
+  0% {
+    transform: scale(1.05) translate3d(-1.5%, -1%, 0);
+  }
+  50% {
+    transform: scale(1.15) translate3d(2%, 1.5%, 0);
+  }
+  100% {
+    transform: scale(1.08) translate3d(-1%, 2%, 0);
+  }
+}
+
+/* Big soft conic "aurora" that rotates behind the orbs for extra color life */
+.bg-aurora {
+  background: conic-gradient(
+    from 0deg,
+    rgba(79, 124, 255, 0.22),
+    rgba(165, 180, 252, 0.10),
+    rgba(192, 132, 252, 0.18),
+    rgba(59, 58, 149, 0.16),
+    rgba(79, 124, 255, 0.22)
+  );
+  border-radius: 9999px;
+  filter: blur(90px);
+  opacity: 0.9;
+}
+
+/* Perspective grid that fades toward a horizon for a subtle 3D-floor feel */
+.bg-grid {
+  background-image:
+    linear-gradient(to right, rgba(47, 75, 255, 0.06) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(47, 75, 255, 0.06) 1px, transparent 1px);
+  background-size: 46px 46px;
+  -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 30%, #000 30%, transparent 78%);
+  mask-image: radial-gradient(ellipse 80% 60% at 50% 30%, #000 30%, transparent 78%);
 }
 
 /* Perspective wrapper so child 3D transforms have depth */

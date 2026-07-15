@@ -5,14 +5,14 @@ import SectionTag from './SectionTag'
 import { fadeUp3D, inView } from '../lib/motion'
 
 const INDUSTRIES = [
-  'Real Estate',
+  'Construction & Real Estate',
+  'Finance',
+  'Chit Funds',
+  'Hospitality & F&B',
+  'Retail & Trade',
+  'Manufacturing',
   'Education',
-  'Pharmaceuticals',
-  'Jewellery & Diamonds',
-  'Fashion',
-  'Technology',
-  'Banking',
-  'View more',
+  'Healthcare',
 ]
 
 export default function Industries() {
@@ -35,10 +35,11 @@ export default function Industries() {
         >
           <div className="grid grid-cols-1 gap-10 md:grid-cols-2">
             <div>
-              <h2 className="text-3xl font-extrabold md:text-4xl">Industries We Support</h2>
+              <h2 className="text-3xl font-extrabold md:text-4xl">One ERP, Every Industry</h2>
               <p className="mt-4 max-w-md text-muted">
-                Deep domain expertise across 18+ verticals means we understand your business — not
-                just your codebase.
+                Every business runs differently. We model your real workflows — from construction and
+                chit funds to hospitality and finance — into an ERP that fits, instead of forcing you
+                into off-the-shelf software.
               </p>
 
               <ul className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-2">
@@ -51,24 +52,24 @@ export default function Industries() {
               </ul>
             </div>
 
-            {/* 3D-ish visual with parallax floating cards */}
+            {/* 3D-ish visual with parallax floating cards showing real proof */}
             <div className="relative min-h-[260px]">
               <div className="absolute right-4 top-2 h-56 w-56 rounded-full bg-gradient-to-br from-brand-500 to-brand-700 md:h-64 md:w-64">
-                <div className="absolute inset-0 grid place-items-center text-7xl">👩‍💻</div>
+                <div className="absolute inset-0 grid place-items-center text-7xl">🏗️</div>
               </div>
               <motion.div
                 style={{ y: yA }}
                 className="absolute right-0 top-6 rounded-xl bg-white px-4 py-3 shadow-card"
               >
-                <div className="text-[11px] text-muted">Finished Projects</div>
-                <div className="text-lg font-extrabold text-brand-600">143</div>
+                <div className="text-[11px] text-muted">Businesses live on our ERP</div>
+                <div className="text-lg font-extrabold text-brand-600">3 and growing</div>
               </motion.div>
               <motion.div
                 style={{ y: yB }}
                 className="absolute bottom-2 left-0 rounded-xl bg-white px-4 py-3 shadow-card"
               >
-                <div className="text-[11px] text-muted">Total Projects</div>
-                <div className="text-lg font-extrabold">1234</div>
+                <div className="text-[11px] text-muted">Built to fit each business</div>
+                <div className="text-lg font-extrabold">100% custom</div>
               </motion.div>
             </div>
           </div>

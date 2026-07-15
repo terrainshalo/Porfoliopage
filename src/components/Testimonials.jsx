@@ -5,37 +5,37 @@ import { fadeUp3D, cardTilt, stagger, inView } from '../lib/motion'
 
 const REVIEWS = [
   {
-    name: 'James Lin',
-    role: 'Startup Founder',
+    name: 'Harini Builders',
+    role: 'Construction & Real Estate',
     rating: 5,
     quote:
-      'Working with Terrainshalo was a game-changer. They delivered a pixel-perfect product ahead of schedule.',
-    initial: 'JL',
+      'The ERP maps to exactly how we run projects and sites. Everything from materials to billing finally lives in one place.',
+    initial: 'HB',
   },
   {
-    name: 'Sarah Johnson',
-    role: 'Product Manager',
-    rating: 4.9,
+    name: 'KJR Chit Funds',
+    role: 'Finance & Chit Funds',
+    rating: 5,
     quote:
-      'Our digital transformation was seamless. Responsive, collaborative, and saved us thousands every quarter.',
-    initial: 'SJ',
+      'They understood chit fund operations deeply and built a system around them. Members, collections and payouts are effortless now.',
+    initial: 'KJR',
     featured: true,
   },
   {
-    name: 'Thomas Nguyen',
-    role: 'CTO',
-    rating: 4.8,
+    name: 'Cowboy Bar',
+    role: 'Hospitality & F&B',
+    rating: 5,
     quote:
-      'The engineering is world-class. Rock solid architecture and a team we genuinely trust with our roadmap.',
-    initial: 'TN',
+      'From inventory to daily sales, the whole bar runs on it. Fast to set up and genuinely built for how we operate.',
+    initial: 'CB',
   },
 ]
 
 export default function Testimonials() {
   return (
-    <section id="testimonials" className="scene-3d bg-[#fafbff] py-20 md:py-28">
+    <section id="testimonials" className="scene-3d py-20 md:py-28">
       <div className="mx-auto max-w-7xl px-5 md:px-8">
-        <SectionTag active="Trusted" label="Proof that it works" />
+        <SectionTag active="Clients" label="Who we build for" />
 
         <motion.h2
           variants={fadeUp3D}
@@ -44,7 +44,7 @@ export default function Testimonials() {
           viewport={inView}
           className="mx-auto mt-5 max-w-2xl text-center text-3xl font-extrabold md:text-5xl"
         >
-          Trusted by Teams Worldwide
+          Trusted by Real Businesses
         </motion.h2>
         <motion.p
           variants={fadeUp3D}

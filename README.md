@@ -25,18 +25,24 @@ src/
     Navbar.jsx             # sticky nav, blurs on scroll, mobile menu
     Hero.jsx               # scroll-driven parallax hero (useScroll + useTransform)
     LogoMarquee.jsx        # infinite client-logo marquee
-    Services.jsx           # 4 service cards with 3D hover tilt
-    Industries.jsx         # verticals panel with parallax floating stat cards
-    AIIntegrations.jsx     # orbiting integration nodes
-    Testimonials.jsx       # reviews with depth/tilt
+    Services.jsx           # ERP-focused service cards (ERP featured) with 3D hover tilt
+    Industries.jsx         # "One ERP, every industry" panel with parallax cards
+    AIIntegrations.jsx     # WhatsApp / Email / notification integrations (orbiting nodes)
+    Testimonials.jsx       # real client testimonials
+    Founders.jsx           # founder + co-founder cards
     Contact.jsx            # EmailJS form + social/contact channels  (replaces FAQ)
     Footer.jsx             # links, phone, WhatsApp, Facebook
+  hooks/
+    useSmoothScroll.js     # Lenis inertia scroll feeding the scroll-linked animations
 ```
 
 ## Changes made vs. the original design
 
-- **Pricing section removed.**
-- **FAQ replaced with a Contact Us section** containing the email form.
+- **Pricing section removed**; **FAQ replaced with a Contact Us section**.
+- Repositioned around **custom ERP for any business, any scale**, AI-accelerated + digital marketing.
+- Real clients used: **Harini Builders, KJR Chit Funds, Cowboy Bar**.
+- Added a **Founders** section (Mukundan + co-founders Kishore, Sowmeiyha, Yashwanth).
+- **Login button removed**; **Lenis smooth scroll** added.
 - Socials wired up: Facebook, phone **9600061720**, and WhatsApp (same number).
 
 ## 3D scroll animations
@@ -47,23 +53,22 @@ Industries) use `useScroll({ target, offset })` mapped through `useTransform` fo
 while reveal-on-scroll uses `whileInView` with the shared variants in `lib/motion.js`. Only
 `transform`/`opacity` are animated (GPU-friendly), and `prefers-reduced-motion` is respected.
 
-## Contact form (EmailJS)
+## Contact form → lead emails (Web3Forms)
 
-The form sends to **admin@terrainshalo.com** via [EmailJS](https://www.emailjs.com) — no backend
-needed. Set it up once:
+The form emails you every lead via [Web3Forms](https://web3forms.com) — no backend, no template
+config. **One-time, ~1 minute setup:**
 
-1. Create a free EmailJS account and add an **Email Service** (e.g. Gmail) → copy the **Service ID**.
-2. Create an **Email Template**. In the template's **To Email** field put `admin@terrainshalo.com`,
-   and use these variables in the body: `{{from_name}}`, `{{from_email}}`, `{{subject}}`,
-   `{{message}}`. Copy the **Template ID**.
-3. From **Account → General**, copy your **Public Key**.
-4. Put all three in `.env`:
+1. Go to https://web3forms.com and enter the inbox where you want leads (e.g.
+   `buildersharini@gmail.com` or `admin@terrainshalo.com`).
+2. Copy the **Access Key** they give you.
+3. Create a `.env` file (copy `.env.example`) and paste it in:
 
    ```
-   VITE_EMAILJS_SERVICE_ID=your_service_id
-   VITE_EMAILJS_TEMPLATE_ID=your_template_id
-   VITE_EMAILJS_PUBLIC_KEY=your_public_key
+   VITE_WEB3FORMS_KEY=your_web3forms_access_key
    ```
 
-The form validates all fields client-side and shows **Sending… / Success! / Error** states. Until
-keys are added it will show the error state (by design) so misconfiguration is obvious.
+4. Restart `npm run dev`.
+
+That's it. When someone submits, you get an email containing their **name, email, topic and
+message**. The form validates all fields and shows **Sending… / Success! / Error** states. Until
+the key is added it stays in the error state (by design) so it's obvious it isn't wired up yet.

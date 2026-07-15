@@ -1,7 +1,9 @@
 import { motion } from 'framer-motion'
 import { fadeUp3D, inView } from '../lib/motion'
 
-// The little pill label above each section heading in the design.
+// A static "eyebrow" label above each section heading.
+// Deliberately styled as plain text (no pill/border/background) so it does NOT
+// read as a clickable button or tab.
 export default function SectionTag({ active, label }) {
   return (
     <motion.div
@@ -9,10 +11,11 @@ export default function SectionTag({ active, label }) {
       initial="hidden"
       whileInView="show"
       viewport={inView}
-      className="mx-auto flex w-fit items-center gap-1 rounded-full bg-brand-50 p-1 pr-3 text-xs font-semibold"
+      className="mx-auto flex w-fit items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em]"
     >
-      <span className="rounded-full bg-brand-600 px-3 py-1 text-white">{active}</span>
-      <span className="px-1 text-muted">{label}</span>
+      <span className="h-1.5 w-1.5 rounded-full bg-brand-500" />
+      <span className="text-brand-600">{active}</span>
+      {label && <span className="font-medium text-muted">· {label}</span>}
     </motion.div>
   )
 }
