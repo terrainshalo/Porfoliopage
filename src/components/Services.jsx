@@ -1,7 +1,19 @@
 import { motion } from 'framer-motion'
 import { Boxes, Megaphone, Sparkles, Palette, Code2, Smartphone, ArrowRight } from 'lucide-react'
 import SectionTag from './SectionTag'
-import { fadeUp3D, cardTilt, stagger, inView } from '../lib/motion'
+import { fadeUp3D, cardTilt, inView, sectionInView, EASE } from '../lib/motion'
+
+// Section rises in (no block-fade) so the tiles' own one-by-one entrance shows.
+const sectionRise = {
+  hidden: { y: 50 },
+  show: { y: 0, transition: { duration: 0.6, ease: EASE } },
+}
+
+// Clear, seamless cascade: each tile starts a beat after the previous one.
+const tilesStagger = {
+  hidden: {},
+  show: { transition: { delayChildren: 0.15, staggerChildren: 0.16 } },
+}
 
 const SERVICES = [
   {
@@ -38,7 +50,14 @@ const SERVICES = [
 
 export default function Services() {
   return (
-    <section id="services" className="scene-3d relative py-20 md:py-28">
+    <motion.section
+      id="services"
+      variants={sectionRise}
+      initial="hidden"
+      whileInView="show"
+      viewport={sectionInView}
+      className="scene-3d relative py-20 md:py-28"
+    >
       <div className="mx-auto max-w-7xl px-5 md:px-8">
         <SectionTag active="Services" label="What we do" />
 
@@ -63,7 +82,7 @@ export default function Services() {
         </motion.p>
 
         <motion.div
-          variants={stagger}
+          variants={tilesStagger}
           initial="hidden"
           whileInView="show"
           viewport={inView}
@@ -74,7 +93,7 @@ export default function Services() {
           ))}
         </motion.div>
       </div>
-    </section>
+    </motion.section>
   )
 }
 
@@ -82,11 +101,15 @@ function ServiceCard({ icon: Icon, title, body, index }) {
   // No card is "selected" by default — the elevated look only appears on hover.
   return (
     <motion.article
-      custom={index}
       variants={cardTilt}
-      whileHover={{ y: -8, rotateX: 6, rotateY: -6, transformPerspective: 900 }}
-      transition={{ type: 'spring', stiffness: 200, damping: 18 }}
-      className="group flex flex-col rounded-3xl bg-[#f6f7fb] p-6 ring-1 ring-transparent transition-all duration-300 [transform-style:preserve-3d] hover:bg-white hover:shadow-card hover:ring-brand-100"
+      whileHover={{
+        y: -8,
+        rotateX: 6,
+        rotateY: -6,
+        transformPerspective: 900,
+        transition: { type: 'spring', stiffness: 200, damping: 18 },
+      }}
+      className="group flex flex-col rounded-3xl bg-[#f6f7fb] p-6 ring-1 ring-transparent transition-[background,box-shadow] duration-300 [transform-style:preserve-3d] hover:bg-white hover:shadow-card hover:ring-brand-100"
     >
       <span className="grid h-11 w-11 place-items-center rounded-xl bg-white text-brand-600 shadow-soft transition-colors duration-300 group-hover:bg-brand-600 group-hover:text-white">
         <Icon size={20} />

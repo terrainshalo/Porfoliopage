@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Mail, Phone, MessageCircle, Facebook, Send, Loader2, CheckCircle2, AlertTriangle } from 'lucide-react'
-import { fadeUp3D, stagger, inView } from '../lib/motion'
+import { fadeUp3D, stagger, inView, sectionReveal, sectionInView } from '../lib/motion'
 import { SITE } from '../lib/site'
 
 // Web3Forms turns this form into an email to your inbox — no backend needed.
@@ -76,7 +76,14 @@ export default function Contact() {
   }
 
   return (
-    <section id="contact" className="scene-3d relative overflow-hidden py-20 md:py-28">
+    <motion.section
+      id="contact"
+      variants={sectionReveal}
+      initial="hidden"
+      whileInView="show"
+      viewport={sectionInView}
+      className="scene-3d relative overflow-hidden py-20 md:py-28"
+    >
       <div className="glow-blob pointer-events-none absolute -left-20 bottom-10 -z-10 h-80 w-80 rounded-full bg-brand-200/40" />
       <div className="mx-auto max-w-6xl px-5 md:px-8">
         <motion.h2
@@ -230,7 +237,7 @@ export default function Contact() {
           </motion.form>
         </div>
       </div>
-    </section>
+    </motion.section>
   )
 }
 

@@ -1,5 +1,7 @@
-import { motion, useScroll, useSpring } from 'framer-motion'
+import { useState } from 'react'
+import { AnimatePresence, motion, useScroll, useSpring } from 'framer-motion'
 import useSmoothScroll from './hooks/useSmoothScroll'
+import Intro from './components/Intro'
 import BackgroundFX from './components/BackgroundFX'
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
@@ -35,8 +37,15 @@ export default function App() {
   const { scrollYProgress } = useScroll()
   const progress = useSpring(scrollYProgress, { stiffness: 120, damping: 30, mass: 0.3 })
 
+  // First-load intro overlay; unmounts once the curtain has lifted.
+  const [started, setStarted] = useState(false)
+
   return (
     <div className="relative">
+      <AnimatePresence>
+        {!started && <Intro key="intro" onDone={() => setStarted(true)} />}
+      </AnimatePresence>
+
       {/* animated 3D backdrop behind everything */}
       <BackgroundFX />
 

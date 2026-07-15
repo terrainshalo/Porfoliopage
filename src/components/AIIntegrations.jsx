@@ -1,13 +1,20 @@
 import { motion } from 'framer-motion'
 import SectionTag from './SectionTag'
-import { fadeUp3D, inView, stagger } from '../lib/motion'
+import { fadeUp3D, inView, stagger, sectionReveal, sectionInView } from '../lib/motion'
 
 // Orbiting integration nodes around the central message.
 const NODES = ['💬', '📧', '🔔', '🤖', '📱', '📊', '⚡', '✅']
 
 export default function AIIntegrations() {
   return (
-    <section id="ai" className="scene-3d relative overflow-hidden py-20 md:py-28">
+    <motion.section
+      id="ai"
+      variants={sectionReveal}
+      initial="hidden"
+      whileInView="show"
+      viewport={sectionInView}
+      className="scene-3d relative overflow-hidden py-20 md:py-28"
+    >
       <div className="mx-auto max-w-5xl px-5 md:px-8">
         <SectionTag active="Integrations" label="Customer & ops alerts" />
 
@@ -70,6 +77,6 @@ export default function AIIntegrations() {
           </motion.div>
         </div>
       </div>
-    </section>
+    </motion.section>
   )
 }

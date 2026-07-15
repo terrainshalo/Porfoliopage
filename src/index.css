@@ -69,8 +69,9 @@ body {
     rgba(79, 124, 255, 0.22)
   );
   border-radius: 9999px;
-  filter: blur(90px);
-  opacity: 0.9;
+  filter: blur(70px);
+  opacity: 0.85;
+  will-change: transform;
 }
 
 /* Perspective grid that fades toward a horizon for a subtle 3D-floor feel */
@@ -91,7 +92,8 @@ body {
 
 /* Subtle grid / glow helpers */
 .glow-blob {
-  filter: blur(60px);
+  filter: blur(50px);
+  will-change: transform;
 }
 
 .gradient-text {

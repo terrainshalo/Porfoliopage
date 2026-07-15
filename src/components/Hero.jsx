@@ -1,7 +1,7 @@
 import { useRef } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import { ArrowRight } from 'lucide-react'
-import { fadeUp3D, stagger } from '../lib/motion'
+import { fadeUp3D } from '../lib/motion'
 import { LogoMark } from './Logo'
 import { SITE } from '../lib/site'
 
@@ -11,6 +11,14 @@ const STATS = [
   { value: 'AI', label: 'Accelerated Delivery' },
   { value: 'Automate', label: 'Any Manual Task' },
 ]
+
+// Hero content waits for the intro curtain (~1s) then flows in with a stagger,
+// so first paint hands off seamlessly from the splash to the page.
+const HERO_DELAY = 1.05
+const heroStagger = {
+  hidden: {},
+  show: { transition: { delayChildren: HERO_DELAY, staggerChildren: 0.12 } },
+}
 
 export default function Hero() {
   const ref = useRef(null)
@@ -37,7 +45,7 @@ export default function Hero() {
         className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-10 px-5 pb-8 md:grid-cols-2 md:px-8"
       >
         {/* LEFT: copy */}
-        <motion.div variants={stagger} initial="hidden" animate="show">
+        <motion.div variants={heroStagger} initial="hidden" animate="show">
           <motion.span
             variants={fadeUp3D}
             className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-1.5 text-xs font-semibold text-ink/70 shadow-soft"
@@ -62,10 +70,12 @@ export default function Hero() {
           <motion.div variants={fadeUp3D} className="mt-7 flex flex-wrap items-center gap-4">
             <a
               href="#contact"
-              className="group inline-flex items-center gap-2 rounded-full bg-brand-600 px-6 py-3.5 text-sm font-semibold text-white shadow-card transition-transform hover:-translate-y-0.5"
+              className="group relative inline-flex items-center gap-2 overflow-hidden rounded-full bg-brand-600 px-6 py-3.5 text-sm font-semibold text-white shadow-card transition-all duration-300 hover:-translate-y-0.5 hover:scale-[1.03] hover:bg-brand-700 hover:shadow-[0_16px_40px_-10px_rgba(47,75,255,0.5)]"
             >
-              Start Your Project
-              <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
+              {/* light sweep on hover */}
+              <span className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/40 to-transparent transition-transform duration-700 ease-out group-hover:translate-x-full" />
+              <span className="relative">Start Your Project</span>
+              <ArrowRight size={16} className="relative transition-transform duration-300 group-hover:translate-x-1" />
             </a>
           </motion.div>
 
@@ -83,8 +93,13 @@ export default function Hero() {
           </motion.div>
         </motion.div>
 
-        {/* RIGHT: 3D parallax visual */}
-        <div className="relative mx-auto h-[420px] w-full max-w-md md:h-[500px]">
+        {/* RIGHT: 3D parallax visual (fades in with the hero copy) */}
+        <motion.div
+          className="relative mx-auto h-[420px] w-full max-w-md md:h-[500px]"
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: HERO_DELAY + 0.1, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+        >
           <motion.div
             style={{ y: yImage, rotate }}
             className="absolute inset-0 grid place-items-center"
@@ -122,7 +137,7 @@ export default function Hero() {
             <div className="text-[11px] text-muted">Built to fit you</div>
             <div className="text-sm font-bold text-brand-600">100% custom</div>
           </motion.div>
-        </div>
+        </motion.div>
       </motion.div>
     </section>
   )

@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion'
 import { Star } from 'lucide-react'
 import SectionTag from './SectionTag'
-import { fadeUp3D, cardTilt, stagger, inView } from '../lib/motion'
+import { fadeUp3D, cardTilt, stagger, inView, sectionReveal, sectionInView } from '../lib/motion'
 
 const REVIEWS = [
   {
@@ -11,6 +11,7 @@ const REVIEWS = [
     quote:
       'The ERP maps to exactly how we run projects and sites. Everything from materials to billing finally lives in one place.',
     initial: 'HB',
+    logo: '/clients/harini.jpg', // drop the logo at public/clients/harini.jpg
   },
   {
     name: 'KJR Chit Funds',
@@ -19,6 +20,7 @@ const REVIEWS = [
     quote:
       'They understood chit fund operations deeply and built a system around them. Members, collections and payouts are effortless now.',
     initial: 'KJR',
+    logo: '/clients/kjr.jpg', // drop the logo at public/clients/kjr.jpg
     featured: true,
   },
   {
@@ -33,7 +35,14 @@ const REVIEWS = [
 
 export default function Testimonials() {
   return (
-    <section id="testimonials" className="scene-3d py-20 md:py-28">
+    <motion.section
+      id="testimonials"
+      variants={sectionReveal}
+      initial="hidden"
+      whileInView="show"
+      viewport={sectionInView}
+      className="scene-3d py-20 md:py-28"
+    >
       <div className="mx-auto max-w-7xl px-5 md:px-8">
         <SectionTag active="Clients" label="Who we build for" />
 
@@ -74,7 +83,21 @@ export default function Testimonials() {
               }`}
             >
               <div className="flex items-center gap-3">
-                <span className="grid h-11 w-11 place-items-center rounded-full bg-brand-100 font-bold text-brand-700">
+                {r.logo ? (
+                  <img
+                    src={r.logo}
+                    alt={r.name}
+                    onError={(e) => {
+                      e.currentTarget.style.display = 'none'
+                      e.currentTarget.nextElementSibling.style.display = 'grid'
+                    }}
+                    className="h-11 w-11 rounded-full object-cover ring-1 ring-black/5"
+                  />
+                ) : null}
+                <span
+                  className="h-11 w-11 place-items-center rounded-full bg-brand-100 font-bold text-brand-700"
+                  style={{ display: r.logo ? 'none' : 'grid' }}
+                >
                   {r.initial}
                 </span>
                 <div>
@@ -97,6 +120,6 @@ export default function Testimonials() {
           ))}
         </motion.div>
       </div>
-    </section>
+    </motion.section>
   )
 }

@@ -11,10 +11,12 @@ export default function useSmoothScroll() {
     // Respect users who prefer reduced motion — skip the hijack entirely.
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
 
+    // lerp mode is frame-rate based and feels smoother / less "laggy" than
+    // duration mode, which can drift behind fast wheel input.
     const lenis = new Lenis({
-      duration: 1.1,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // expo-out
+      lerp: 0.1,
       smoothWheel: true,
+      wheelMultiplier: 1,
       touchMultiplier: 1.6,
     })
 

@@ -2,7 +2,7 @@ import { useRef } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import { CheckCircle2 } from 'lucide-react'
 import SectionTag from './SectionTag'
-import { fadeUp3D, inView } from '../lib/motion'
+import { fadeUp3D, inView, sectionReveal, sectionInView } from '../lib/motion'
 
 const INDUSTRIES = [
   'Construction & Real Estate',
@@ -23,7 +23,14 @@ export default function Industries() {
   const yB = useTransform(scrollYProgress, [0, 1], [80, -80])
 
   return (
-    <section id="industries" className="scene-3d py-10 md:py-16">
+    <motion.section
+      id="industries"
+      variants={sectionReveal}
+      initial="hidden"
+      whileInView="show"
+      viewport={sectionInView}
+      className="scene-3d py-10 md:py-16"
+    >
       <div className="mx-auto max-w-7xl px-5 md:px-8">
         <motion.div
           ref={ref}
@@ -75,6 +82,6 @@ export default function Industries() {
           </div>
         </motion.div>
       </div>
-    </section>
+    </motion.section>
   )
 }

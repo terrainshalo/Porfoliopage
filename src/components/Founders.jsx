@@ -1,11 +1,18 @@
 import { motion } from 'framer-motion'
 import SectionTag from './SectionTag'
-import { fadeUp3D, cardTilt, inView } from '../lib/motion'
+import { fadeUp3D, cardTilt, inView, sectionReveal, sectionInView } from '../lib/motion'
 import { FOUNDERS } from '../lib/site'
 
 export default function Founders() {
   return (
-    <section id="founders" className="scene-3d py-20 md:py-28">
+    <motion.section
+      id="founders"
+      variants={sectionReveal}
+      initial="hidden"
+      whileInView="show"
+      viewport={sectionInView}
+      className="scene-3d py-20 md:py-28"
+    >
       <div className="mx-auto max-w-7xl px-5 md:px-8">
         <SectionTag active="Founders" label="Our team" />
 
@@ -66,6 +73,6 @@ export default function Founders() {
           ))}
         </div>
       </div>
-    </section>
+    </motion.section>
   )
 }

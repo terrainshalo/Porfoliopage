@@ -33,3 +33,18 @@ export const stagger = {
 
 // Standard viewport config: animate once, trigger a bit before fully in view.
 export const inView = { once: true, amount: 0.25, margin: '0px 0px -80px 0px' }
+
+// Whole-section entrance: the entire block fades + rises + settles from a slight
+// 3D tilt as it flows into view. Layered under each section's inner animations.
+export const sectionReveal = {
+  hidden: { opacity: 0, y: 70, rotateX: -6, transformPerspective: 1200 },
+  show: {
+    opacity: 1,
+    y: 0,
+    rotateX: 0,
+    transition: { duration: 0.8, ease: EASE },
+  },
+}
+
+// Trigger a section reveal as soon as its top edge starts entering.
+export const sectionInView = { once: true, amount: 0.12, margin: '0px 0px -100px 0px' }
