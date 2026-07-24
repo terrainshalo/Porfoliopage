@@ -3,6 +3,9 @@ import SectionTag from './SectionTag'
 import { fadeUp3D, cardTilt, inView, sectionReveal, sectionInView } from '../lib/motion'
 import { FOUNDERS } from '../lib/site'
 
+// Soft photo backdrops, cycled per card (matches the Figma pastel row).
+const TINTS = ['bg-[#e7ecff]', 'bg-[#eef0f4]', 'bg-[#f7e9e3]', 'bg-[#e8f0ff]']
+
 export default function Founders() {
   return (
     <motion.section
@@ -46,29 +49,32 @@ export default function Founders() {
               whileInView="show"
               viewport={{ once: true, amount: 0.2 }}
               whileHover={{ y: -8, rotateX: 6, rotateY: -5, transformPerspective: 900 }}
-              className="relative flex flex-col rounded-3xl bg-white p-6 shadow-soft ring-1 ring-black/5 [transform-style:preserve-3d]"
+              className={`group relative flex aspect-[3/4] flex-col justify-end overflow-hidden rounded-3xl p-4 shadow-soft ring-1 ring-black/5 [transform-style:preserve-3d] ${TINTS[i % TINTS.length]}`}
             >
               {f.photo ? (
                 <img
                   src={f.photo}
                   alt={f.name}
                   onError={(e) => {
-                    // If the photo isn't there yet, fall back to the initial avatar.
                     e.currentTarget.style.display = 'none'
                     e.currentTarget.nextElementSibling.style.display = 'grid'
                   }}
-                  className="h-16 w-16 rounded-2xl object-cover shadow-soft"
+                  className="absolute inset-0 h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
                 />
               ) : null}
+              {/* fallback initial block if the photo isn't present */}
               <span
-                className="h-16 w-16 place-items-center rounded-2xl bg-gradient-to-br from-brand-500 to-brand-700 text-xl font-extrabold text-white"
+                className="absolute inset-0 place-items-center bg-gradient-to-br from-brand-500 to-brand-700 text-5xl font-extrabold text-white"
                 style={{ display: f.photo ? 'none' : 'grid' }}
               >
                 {f.initial}
               </span>
-              <h3 className="mt-5 text-lg font-bold">{f.name}</h3>
-              <div className="text-sm font-semibold text-brand-600">{f.role}</div>
-              <p className="mt-3 text-sm leading-relaxed text-muted">{f.bio}</p>
+
+              {/* name plate */}
+              <div className="relative z-10 rounded-2xl bg-white/95 px-4 py-3 text-center shadow-soft backdrop-blur">
+                <h3 className="text-base font-bold leading-tight">{f.name}</h3>
+                <div className="text-xs font-semibold text-brand-600">{f.role}</div>
+              </div>
             </motion.article>
           ))}
         </div>

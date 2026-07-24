@@ -82,12 +82,12 @@ export default function Hero() {
           {/* stats */}
           <motion.div
             variants={fadeUp3D}
-            className="mt-10 grid max-w-lg grid-cols-2 gap-px overflow-hidden rounded-2xl bg-black/5 sm:grid-cols-4"
+            className="mt-10 grid max-w-lg grid-cols-2 divide-x divide-black/5 overflow-hidden rounded-2xl bg-white shadow-soft ring-1 ring-black/5 sm:grid-cols-4"
           >
             {STATS.map((s) => (
-              <div key={s.label} className="bg-[#f3f4f8] px-4 py-4 text-center">
-                <div className="text-xl font-extrabold text-ink">{s.value}</div>
-                <div className="mt-1 text-[11px] leading-tight text-muted">{s.label}</div>
+              <div key={s.label} className="px-2.5 py-4 text-center">
+                <div className="text-lg font-extrabold tracking-tight text-brand-600">{s.value}</div>
+                <div className="mt-1 text-[11px] font-medium leading-tight text-ink/70">{s.label}</div>
               </div>
             ))}
           </motion.div>
@@ -104,16 +104,28 @@ export default function Hero() {
             style={{ y: yImage, rotate }}
             className="absolute inset-0 grid place-items-center"
           >
-            {/* branded blue hero visual: gradient orb + glass rings + logo mark */}
-            <div className="relative h-80 w-80 rounded-full bg-gradient-to-br from-[#4F7CFF] via-brand-600 to-[#2E2D77] shadow-2xl md:h-96 md:w-96">
-              <div className="absolute inset-6 rounded-full border border-white/20" />
-              <div className="absolute inset-12 rounded-full border border-white/10" />
-              <div className="absolute inset-8 rounded-full bg-white/5 backdrop-blur-sm" />
-              {/* highlight sheen */}
-              <div className="absolute inset-0 rounded-full bg-gradient-to-t from-transparent via-transparent to-white/25" />
-              {/* brand mark on a white glass disc, floating at center */}
-              <div className="absolute inset-0 grid place-items-center">
-                <div className="animate-float grid h-40 w-40 place-items-center rounded-full bg-white/90 shadow-xl backdrop-blur md:h-48 md:w-48">
+            {/* layered blue circles behind the person */}
+            <div className="relative grid h-80 w-80 place-items-center rounded-full bg-[#dfeaff] md:h-[26rem] md:w-[26rem]">
+              <div className="absolute inset-5 rounded-full bg-[#b8ccff]" />
+              <div className="absolute inset-10 rounded-full bg-gradient-to-b from-[#6b8cff] to-brand-600" />
+
+              {/* hero person photo (drop file at public/hero-person.png) */}
+              <img
+                src="/hero-person.png"
+                alt="Terrainshalo team member"
+                onError={(e) => {
+                  e.currentTarget.style.display = 'none'
+                  e.currentTarget.nextElementSibling.style.display = 'grid'
+                }}
+                className="relative z-10 h-[112%] w-auto max-w-none translate-y-[-4%] object-contain drop-shadow-2xl"
+                draggable={false}
+              />
+              {/* fallback: brand mark on a glass disc if the photo isn't added yet */}
+              <div
+                className="animate-float absolute inset-0 z-10 place-items-center"
+                style={{ display: 'none' }}
+              >
+                <div className="grid h-40 w-40 place-items-center rounded-full bg-white/90 shadow-xl backdrop-blur md:h-48 md:w-48">
                   <LogoMark size={110} />
                 </div>
               </div>
@@ -123,16 +135,19 @@ export default function Hero() {
           {/* floating badge: automation callout */}
           <motion.div
             style={{ y: yBadgeA }}
-            className="animate-float absolute left-0 top-16 rounded-2xl bg-white/90 px-4 py-3 shadow-card backdrop-blur"
+            className="animate-float absolute left-0 top-16 z-20 flex items-center gap-2.5 whitespace-nowrap rounded-2xl bg-white px-4 py-3 shadow-card"
           >
-            <div className="text-[11px] text-muted">Manual work</div>
-            <div className="text-sm font-bold text-brand-600">Automated ⚡</div>
+            <span className="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-brand-50 text-base">🤖</span>
+            <div>
+              <div className="text-[11px] leading-tight text-muted">Manual work</div>
+              <div className="text-sm font-bold leading-tight text-brand-600">Automated</div>
+            </div>
           </motion.div>
 
-          {/* floating badge: project card */}
+          {/* floating badge: 100% custom */}
           <motion.div
             style={{ y: yBadgeB }}
-            className="absolute -right-2 bottom-10 rounded-2xl bg-white/90 px-4 py-3 shadow-card backdrop-blur"
+            className="absolute -right-2 bottom-10 z-20 rounded-2xl bg-white px-4 py-3 shadow-card"
           >
             <div className="text-[11px] text-muted">Built to fit you</div>
             <div className="text-sm font-bold text-brand-600">100% custom</div>

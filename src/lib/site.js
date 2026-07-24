@@ -14,9 +14,12 @@ export const NAV_LINKS = [
   { label: 'Services', href: '#services' },
   { label: 'Industries', href: '#industries' },
   { label: 'Solutions', href: '#ai' },
-  { label: 'Founders', href: '#founders' },
   { label: 'Contact', href: '#contact' },
 ]
+
+// Secret trigger for the hidden Founders section. Type this word anywhere on
+// the page, or visit the site with #crew in the URL, to reveal it.
+export const SECRET_CODE = 'crew'
 
 // The teams we're currently building ERP + growth systems for.
 export const CLIENTS = ['Harini Builders', 'KJR Chit Funds', 'Cowboy Bar']

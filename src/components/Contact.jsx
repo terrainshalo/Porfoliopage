@@ -86,61 +86,51 @@ export default function Contact() {
     >
       <div className="glow-blob pointer-events-none absolute -left-20 bottom-10 -z-10 h-80 w-80 rounded-full bg-brand-200/40" />
       <div className="mx-auto max-w-6xl px-5 md:px-8">
-        <motion.h2
-          variants={fadeUp3D}
-          initial="hidden"
-          whileInView="show"
-          viewport={inView}
-          className="mx-auto mt-5 max-w-2xl text-center text-3xl font-extrabold md:text-5xl"
-        >
-          Need Help? We've Got You.
-        </motion.h2>
-        <motion.p
-          variants={fadeUp3D}
-          initial="hidden"
-          whileInView="show"
-          viewport={inView}
-          className="mx-auto mt-4 max-w-xl text-center text-muted"
-        >
-          Tell us about your project and we'll get back to you within one business day. No guesswork,
-          just clarity.
-        </motion.p>
-
-        <div className="mt-14 grid grid-cols-1 gap-8 lg:grid-cols-[0.9fr_1.1fr]">
-          {/* LEFT: contact channels + socials */}
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-[0.85fr_1.15fr]">
+          {/* LEFT: dark blue "Need Help" panel with contact channels */}
           <motion.div
             variants={stagger}
             initial="hidden"
             whileInView="show"
             viewport={inView}
-            className="flex flex-col gap-4"
+            className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#2f4bff] via-brand-600 to-[#1b2a8f] p-8 text-white shadow-card md:p-10"
           >
-            <ContactCard
-              icon={Phone}
-              label="Call us"
-              value={SITE.phone}
-              href={`tel:${SITE.phoneIntl}`}
-            />
-            <ContactCard
-              icon={MessageCircle}
-              label="WhatsApp"
-              value={SITE.phone}
-              href={`https://wa.me/${SITE.whatsapp}`}
-              accent="bg-green-500"
-            />
-            <ContactCard
-              icon={Mail}
-              label="Email"
-              value={SITE.email}
-              href={`mailto:${SITE.email}`}
-            />
-            <ContactCard
-              icon={Facebook}
-              label="Facebook"
-              value="Follow us"
-              href={SITE.socials.facebook}
-              accent="bg-[#1877f2]"
-            />
+            <div className="pointer-events-none absolute -right-16 -top-16 h-52 w-52 rounded-full bg-white/10 blur-2xl" />
+            <motion.h2 variants={fadeUp3D} className="relative text-3xl font-extrabold leading-tight md:text-4xl">
+              Need Help? <br /> We've Got You.
+            </motion.h2>
+            <motion.p variants={fadeUp3D} className="relative mt-4 max-w-xs text-sm text-white/80">
+              Tell us about your project and we'll get back to you within one business day.
+            </motion.p>
+
+            <div className="relative mt-8 flex flex-col gap-3">
+              <ContactCard
+                icon={Phone}
+                label="Call us"
+                value={SITE.phone}
+                href={`tel:${SITE.phoneIntl}`}
+              />
+              <ContactCard
+                icon={MessageCircle}
+                label="WhatsApp"
+                value={SITE.phone}
+                href={`https://wa.me/${SITE.whatsapp}`}
+                accent="bg-green-500"
+              />
+              <ContactCard
+                icon={Mail}
+                label="Email ID"
+                value={SITE.email}
+                href={`mailto:${SITE.email}`}
+              />
+              <ContactCard
+                icon={Facebook}
+                label="Facebook"
+                value="Follow us"
+                href={SITE.socials.facebook}
+                accent="bg-[#1877f2]"
+              />
+            </div>
           </motion.div>
 
           {/* RIGHT: the form */}
@@ -153,6 +143,8 @@ export default function Contact() {
             viewport={inView}
             className="rounded-3xl bg-white p-6 shadow-card ring-1 ring-black/5 md:p-8"
           >
+            <h3 className="text-2xl font-extrabold">Please Enter Your Details</h3>
+            <p className="mt-1 mb-6 text-sm text-muted">Tell us what you'd like to build and we'll take it from there.</p>
             {/* honeypot: hidden from humans, catches bots */}
             <input
               type="checkbox"
@@ -269,14 +261,14 @@ function ContactCard({ icon: Icon, label, value, href, accent = 'bg-brand-600' }
       target={external ? '_blank' : undefined}
       rel={external ? 'noreferrer' : undefined}
       whileHover={{ y: -4, rotateY: 4, transformPerspective: 800 }}
-      className="flex items-center gap-4 rounded-2xl bg-white p-5 shadow-soft ring-1 ring-black/5 [transform-style:preserve-3d]"
+      className="flex items-center gap-4 rounded-2xl bg-white/10 p-4 ring-1 ring-white/15 backdrop-blur transition-colors hover:bg-white/15 [transform-style:preserve-3d]"
     >
       <span className={`grid h-11 w-11 shrink-0 place-items-center rounded-xl text-white ${accent}`}>
         <Icon size={20} />
       </span>
       <div>
-        <div className="text-xs text-muted">{label}</div>
-        <div className="font-semibold">{value}</div>
+        <div className="text-xs text-white/70">{label}</div>
+        <div className="font-semibold text-white">{value}</div>
       </div>
     </motion.a>
   )

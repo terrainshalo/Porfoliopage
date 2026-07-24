@@ -38,11 +38,11 @@ export default function Industries() {
           initial="hidden"
           whileInView="show"
           viewport={inView}
-          className="relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-[#e9ecfb] to-[#eef1ff] p-8 md:p-14"
+          className="relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-[#eef1ff] to-[#e6ecff] p-8 md:p-14"
         >
-          <div className="grid grid-cols-1 gap-10 md:grid-cols-2">
+          <div className="grid grid-cols-1 items-center gap-10 md:grid-cols-2">
             <div>
-              <h2 className="text-3xl font-extrabold md:text-4xl">One ERP, Every Industry</h2>
+              <h2 className="text-3xl font-extrabold text-[#0b1230] md:text-5xl">One ERP, Every Industry</h2>
               <p className="mt-4 max-w-md text-muted">
                 Every business runs differently. We model your real workflows — from construction and
                 chit funds to hospitality and finance — into an ERP that fits, instead of forcing you
@@ -60,23 +60,49 @@ export default function Industries() {
             </div>
 
             {/* 3D-ish visual with parallax floating cards showing real proof */}
-            <div className="relative min-h-[260px]">
-              <div className="absolute right-4 top-2 h-56 w-56 rounded-full bg-gradient-to-br from-brand-500 to-brand-700 md:h-64 md:w-64">
-                <div className="absolute inset-0 grid place-items-center text-7xl">🏗️</div>
+            <div className="relative grid min-h-[320px] place-items-center">
+              {/* layered blue ellipse behind the person */}
+              <div className="relative grid h-72 w-60 place-items-center md:h-80 md:w-72">
+                <div className="absolute inset-x-2 inset-y-0 rounded-[50%] bg-[#c3d3ff]" />
+                <div className="absolute inset-x-5 inset-y-3 rounded-[50%] bg-gradient-to-b from-[#6b8cff] to-brand-600" />
+                {/* erp person photo (drop file at public/erp-person.png) */}
+                <img
+                  src="/erp-person.png"
+                  alt="Team member using the ERP"
+                  onError={(e) => {
+                    e.currentTarget.style.display = 'none'
+                    e.currentTarget.nextElementSibling.style.display = 'grid'
+                  }}
+                  className="relative z-10 h-[108%] w-auto max-w-none object-contain drop-shadow-2xl"
+                  draggable={false}
+                />
+                <div className="absolute inset-0 z-10 place-items-center text-7xl" style={{ display: 'none' }}>
+                  🏗️
+                </div>
               </div>
+
               <motion.div
                 style={{ y: yA }}
-                className="absolute right-0 top-6 rounded-xl bg-white px-4 py-3 shadow-card"
+                className="absolute right-0 top-[58%] z-20 flex items-center gap-2.5 rounded-xl bg-white px-4 py-3 shadow-card md:-right-6"
               >
-                <div className="text-[11px] text-muted">Businesses live on our ERP</div>
-                <div className="text-lg font-extrabold text-brand-600">3 and growing</div>
+                <span className="grid h-8 w-8 place-items-center rounded-lg bg-brand-50 text-brand-600">
+                  <CheckCircle2 size={18} />
+                </span>
+                <div>
+                  <div className="text-[11px] text-muted">Finished Projects</div>
+                  <div className="text-lg font-extrabold text-ink">5</div>
+                </div>
               </motion.div>
+
               <motion.div
                 style={{ y: yB }}
-                className="absolute bottom-2 left-0 rounded-xl bg-white px-4 py-3 shadow-card"
+                className="absolute -bottom-2 left-0 z-20 flex items-center gap-2.5 rounded-xl bg-white px-4 py-3 shadow-card md:-left-6"
               >
-                <div className="text-[11px] text-muted">Built to fit each business</div>
-                <div className="text-lg font-extrabold">100% custom</div>
+                <span className="grid h-8 w-8 place-items-center rounded-lg bg-brand-50 text-base">💼</span>
+                <div>
+                  <div className="text-[11px] text-muted">Businesses live on our ERP</div>
+                  <div className="text-lg font-extrabold text-brand-600">3 and growing</div>
+                </div>
               </motion.div>
             </div>
           </div>

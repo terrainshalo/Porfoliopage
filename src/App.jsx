@@ -1,6 +1,7 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { AnimatePresence, motion, useScroll, useSpring } from 'framer-motion'
 import useSmoothScroll from './hooks/useSmoothScroll'
+import { SECRET_CODE } from './lib/site'
 import Intro from './components/Intro'
 import BackgroundFX from './components/BackgroundFX'
 import Navbar from './components/Navbar'
@@ -40,6 +41,31 @@ export default function App() {
   // First-load intro overlay; unmounts once the curtain has lifted.
   const [started, setStarted] = useState(false)
 
+  // The Founders section is a hidden easter egg. It only appears for people who
+  // discover the secret: type SECRET_CODE anywhere, or open the site with
+  // #crew / #founders in the URL. Once found, it stays revealed for the visit.
+  const [foundersUnlocked, setFoundersUnlocked] = useState(false)
+
+  useEffect(() => {
+    const hash = window.location.hash.toLowerCase()
+    if (hash === '#crew' || hash === '#founders') setFoundersUnlocked(true)
+
+    let buffer = ''
+    const onKey = (e) => {
+      if (e.key.length !== 1) return
+      buffer = (buffer + e.key.toLowerCase()).slice(-SECRET_CODE.length)
+      if (buffer === SECRET_CODE) {
+        setFoundersUnlocked(true)
+        // give React a tick to mount the section, then glide to it
+        requestAnimationFrame(() =>
+          document.getElementById('founders')?.scrollIntoView({ behavior: 'smooth' })
+        )
+      }
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [])
+
   return (
     <div className="relative">
       <AnimatePresence>
@@ -64,7 +90,8 @@ export default function App() {
         <Industries />
         <AIIntegrations />
         <Testimonials />
-        <Founders />
+        {/* Founders is a hidden easter egg — revealed only to those who find it. */}
+        {foundersUnlocked && <Founders />}
         {/* Pricing section intentionally removed per request. */}
         {/* FAQ replaced by the Contact Us section below. */}
         <Contact />

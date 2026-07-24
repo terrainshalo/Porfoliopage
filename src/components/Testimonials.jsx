@@ -119,6 +119,18 @@ export default function Testimonials() {
             </motion.article>
           ))}
         </motion.div>
+
+        {/* pagination dots (decorative, matches Figma) */}
+        <div className="mt-10 flex items-center justify-center gap-2">
+          {REVIEWS.map((r, i) => (
+            <span
+              key={r.name}
+              className={`h-2 rounded-full transition-all ${
+                i === 1 ? 'w-6 bg-brand-600' : 'w-2 bg-brand-200'
+              }`}
+            />
+          ))}
+        </div>
       </div>
     </motion.section>
   )
